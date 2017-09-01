@@ -42,12 +42,20 @@
                 <p class="me__text">Hi, this is a tool that helps you request Kentico Cloud storage with ease.<br /><span v-on:click="prefillOptions">Prefill fields below with sample data.</span></p>
             </div>
             <form id="form" v-on:submit.prevent="makeRequest" class="sidebar__form">
-                <label for="projectId" class="sidebar__label">Project ID</label>
-                <input type="text" id="projectId" placeholder="e.g. 2548121d-cad8-4458-a910-5e4b54cb0956" v-model="options.projectId" class="sidebar__input">
+                <label for="projectId" class="sidebar__label">Project ID <span>(required)<span></label>
+                <input type="text" id="projectId" placeholder="e.g. 2548121d-cad8-4458-a910-5e4b54cb0956" v-model="options.projectId" class="sidebar__input" required>
                 <a href="https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id" target="_blank" class="sidebar__hint">What is Project ID?</a>
 
-                <label for="projectId" class="sidebar__label">Delivery API query string</label>
-                <input type="text" placeholder="e.g. ?system.type=blog_post" v-model="options.queryString" class="sidebar__input">
+                <input id="previewContent" type="checkbox" v-model="options.previewContent" class="sidebar__checkbox"><label for="previewContent" class="sidebar__label sidebar__label--space">Get preview content</label>
+                <a href="https://developer.kenticocloud.com/docs/preview-content-via-api" target="_blank" class="sidebar__hint">What is previewing content?</a>
+
+                <div v-if="options.previewContent">
+                    <label for="previewKey" class="sidebar__label">Preview API key <span>(required)<span></label>
+                    <input required="options.previewContent" type="text" id="previewKey" placeholder="e.g. ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAidWlkIjogInVzcl8wdlVJVzkwTnRQSxpdmVyLmtlbnRpY29jbG91ZC5jb20iDQp9.PpBh6wTk57e1_tPHzROiqWPTpr3IjrEoGN8J4rtfPIg" v-model="options.previewKey" class="sidebar__input">
+                </div>
+
+                <label for="query" class="sidebar__label">Delivery API query string <span>(required)<span></label>
+                <input type="text" id="query" placeholder="e.g. ?system.type=blog_post" v-model="options.queryString" class="sidebar__input" required>
                 <a href="https://developer.kenticocloud.com/v1/reference#content-filtering" target="_blank" class="sidebar__hint">How to compose the query string?</a>
 
                 <input type="submit" value="Request Kentico Cloud storage 🠖" class="sidebar__button">

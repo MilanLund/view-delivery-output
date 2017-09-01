@@ -23,12 +23,51 @@ body {
     display: block;
 }
 
+.sidebar__label span {
+    color: #4F7F7E;
+    font-size: 14px;
+}
+
+.sidebar__label--space {
+    margin: 0 0 24px;
+}
+
+.sidebar__checkbox {
+    display: none;
+}
+
+.sidebar__checkbox + .sidebar__label {
+    padding-left: 28px;
+    position: relative;
+    cursor: pointer;
+}
+
+.sidebar__checkbox + .sidebar__label:before {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    background-color: #344C57;
+    content: '';
+}
+
+.sidebar__checkbox:checked + .sidebar__label:after {
+    position: absolute;
+    left: 3px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: #80A6A5;
+    content: '';
+}
+
 .sidebar__input {
     background-color: #2c414a;
     border-radius: 0;
     padding: 12px 16px;
     border: none;
-    color: #74A2A1;
+    color: #B6D8D7;
     margin: 0 0 32px;
     display: block;
     width: 100%;
@@ -38,7 +77,7 @@ body {
 }
 
 .sidebar__input:focus {
-    color: #90B7B6;
+    color: #EBF9F9;
 }
 
 .sidebar__button {
@@ -57,21 +96,21 @@ body {
 }
 
 ::-webkit-input-placeholder {
-    color: #537f7e;
+    color: #426B6A;
 }
 :-moz-placeholder {
-   color: #537f7e;
+   color: #426B6A;
    opacity:  1;
 }
 ::-moz-placeholder { 
-   color:  #537f7e;
+   color:  #426B6A;
    opacity:  1;
 }
 :-ms-input-placeholder {
-   color: #537f7e;
+   color: #426B6A;
 }
 ::-ms-input-placeholder {
-   color: #537f7e;
+   color: #426B6A;
 }
 
 .sidebar__hint {

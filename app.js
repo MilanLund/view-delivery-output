@@ -1,8 +1,27 @@
 var helper = {
     STORAGE_KEY: 'delivery-view-options',
 
+    getMandatoryFields: function (options) {
+        var mandatoryFields = ['queryString', 'projectId'];
+
+        if (options.previewContent === true) {
+            mandatoryFields.push('previewKey');
+        }
+
+        return mandatoryFields
+    },
+
     getTrimmedString: function (text) {
-        return text && text.trim();
+        var output;
+
+        if (typeof text === 'string') {
+            output = text && text.trim();
+        } else {
+            output = text;
+        }
+
+        return output;
+        
     },
 
     setLocalStorage: function (options) {
@@ -25,7 +44,7 @@ var helper = {
         for (var key in options) {
             if (options.hasOwnProperty(key)) {
                 output.options[key] = helper.getTrimmedString(options[key]);
-                if(!options[key]) {
+                if(!options[key] && helper.getMandatoryFields(options).indexOf(key) > -1) {
                     output.validationMessage += 'Field ' + key + ' is mandatory. ';
                 }
             }
@@ -35,7 +54,13 @@ var helper = {
     },
 
     getRequestUrl: function (options) {
-        return 'https://deliver.kenticocloud.com/'+ options.projectId +'/items' + options.queryString;
+        var preview = '';
+
+        if (options.previewKey !== '' && options.previewContent === true) {
+            preview = 'preview-';
+        }
+
+        return 'https://' + preview + 'deliver.kenticocloud.com/'+ options.projectId +'/items' + options.queryString;
     },
 
     requestDelivery: function (state) { 
@@ -43,7 +68,12 @@ var helper = {
 
         $.ajax({
             url: state.requestedUrl,
-            dataType: 'json'
+            dataType: 'json',
+            beforeSend: function(xhr, settings) { 
+                if (state.options.previewKey !== '' && state.options.previewContent === true) {
+                    xhr.setRequestHeader('Authorization','Bearer ' + state.options.previewKey); 
+                }    
+            }
         }).done(function(data) {               
             state.response = data;
             console.log(data);
@@ -64,6 +94,8 @@ var app = new Vue({
         options: {
             queryString: '',
             projectId: '',
+            previewKey: '',
+            previewContent
         },
         requestedUrl: '',
         response: '',
@@ -97,7 +129,9 @@ var app = new Vue({
             var that = this;
 
             that.options.queryString = '?system.type=blog_post';
+            that.options.previewKey = 'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAidWlkIjogInVzcl8wdlVJVzkwTnRQSVNxNm1GSDN2ZFhiIiwNCiAgImVtYWlsIjogImhlbGxvQG1pbGFubHVuZC5jb20iLA0KICAicHJvamVjdF9pZCI6ICIyNTQ4MTIxZC1jYWQ4LTQ0NTgtYTkxMC01ZTRiNTRjYjA5NTYiLA0KICAianRpIjogInhrU1BLUjlzbzgxSV9rel8iLA0KICAidmVyIjogIjEuMC4wIiwNCiAgImdpdmVuX25hbWUiOiAiTWlsYW4iLA0KICAiZmFtaWx5X25hbWUiOiAiTHVuZCIsDQogICJhdWQiOiAicHJldmlldy5kZWxpdmVyLmtlbnRpY29jbG91ZC5jb20iDQp9.PpBh6wTk57e1_tPHzROiqWPTpr3IjrEoGN8J4rtfPIg';
             that.options.projectId = '2548121d-cad8-4458-a910-5e4b54cb0956';
+            that.options.previewContent = true;
         }
     }
 });
