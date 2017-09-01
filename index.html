@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>View Delivery output</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="app.css">
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.15.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.15.2/theme/material.min.css">
+
+    <script src="https://unpkg.com/vue"></script>
+    <!--<link rel="stylesheet" href="css/styles.css?v=1.0">-->
+</head>
+
+<body>
+    <div id="app">
+        <div class="sidebar">
+            <div class="me">
+                <a href="https://www.milanlund.com/" target="_blank" class="me__face"></a>
+                <p class="me__text">Hi, this is a tool that helps you request Kentico Cloud storage with ease.<br /><span v-on:click="prefillOptions">Prefill fields below with sample data.</span></p>
+            </div>
+            <form id="form" v-on:submit.prevent="makeRequest" class="sidebar__form">
+                <label for="projectId" class="sidebar__label">Project ID</label>
+                <input type="text" id="projectId" placeholder="e.g. 2548121d-cad8-4458-a910-5e4b54cb0956" v-model="options.projectId" class="sidebar__input">
+                <a href="https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id" target="_blank" class="sidebar__hint">What is Project ID?</a>
+
+                <label for="projectId" class="sidebar__label">Delivery API query string</label>
+                <input type="text" placeholder="e.g. ?system.type=blog_post" v-model="options.queryString" class="sidebar__input">
+                <a href="https://developer.kenticocloud.com/v1/reference#content-filtering" target="_blank" class="sidebar__hint">How to compose the query string?</a>
+
+                <input type="submit" value="Request Kentico Cloud storage 🠖" class="sidebar__button">
+            </form>
+        </div>
+        <div class="result">
+            <div class="result__url">{{ requestedUrl }}</div>
+            <div class="result__message">{{ validationMessage }}</div>
+            <div class="result__wrapper">
+                <div class="result__code">
+                    <textarea id="response" class="code">{{ response }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.15.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.6.14/beautify.js"></script>
+    <script src="code-editor.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
